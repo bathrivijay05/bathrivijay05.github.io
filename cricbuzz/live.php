@@ -1,4 +1,5 @@
 <?php
+ini_set('display_errors','Off');
 include_once 'simple_html_dom.php';
 header('content-type: application/json');
 
