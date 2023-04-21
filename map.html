@@ -90,17 +90,26 @@ navigator.geolocation.getCurrentPosition(function(position) {
   // Generate 10 random coordinates within a 5-10 km radius around the user's location
   var markers = [];
   for (var i = 0; i < 10; i++) {
-    var distance = Math.random() * 5 + 5; // distance in km
+    var distance = Math.random() * 4 + 1; // distance in km
     var angle = Math.random() * 360; // angle in degrees
     var markerLatitude = latitude + distance / 111.111 * Math.cos(angle * Math.PI / 180);
     var markerLongitude = longitude + distance / (111.111 * Math.cos(latitude * Math.PI / 180)) * Math.sin(angle * Math.PI / 180);
-    
+
     // Create a marker with the ambulance icon at the randomly generated coordinates
     var marker = L.marker([markerLatitude, markerLongitude], {
       icon: ambulanceIcon,
     }).addTo(map);
     markers.push(marker);
   }
+
+  // Create a marker for the user's current location
+  var userMarker = L.marker([latitude, longitude]).addTo(map);
+
+  // Add all markers to a LayerGroup and fit the map to the bounds of the LayerGroup
+  var group = new L.LayerGroup(markers.concat(userMarker));
+  map.fitBounds(group.getBounds());
+});
+
   
   // Create a marker for the user's current location
   var userMarker = L.marker([latitude, longitude]).addTo(map);
